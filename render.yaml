@@ -4,7 +4,7 @@ services:
     name: athenacare-backend
     env: docker
     rootDir: backend
-    plan: starter # Can be starter or free, docker builds require starter/free plan
+    plan: free # Use Render's free tier for web service
     envVars:
       - key: MONGODB_URL
         sync: false # You will enter your MongoDB Atlas URL in the Render UI
