@@ -24,7 +24,7 @@ services:
         value: '["https://athenacare-frontend.onrender.com", "http://localhost:3000"]' # Update with your frontend's actual URL once deployed
 
   # Frontend Vite Static Site
-  - type: static
+  - type: static_site
     name: athenacare-frontend
     root: frontend
     buildCommand: npm install && npm run build
