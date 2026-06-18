@@ -3,7 +3,7 @@ services:
   - type: web
     name: athenacare-backend
     env: docker
-    root: backend
+    rootDir: backend
     plan: starter # Can be starter or free, docker builds require starter/free plan
     envVars:
       - key: MONGODB_URL
@@ -27,9 +27,10 @@ services:
   - type: web
     name: athenacare-frontend
     env: static
-    root: frontend
+    rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
+
     envVars:
       - key: VITE_API_URL
         fromService:
