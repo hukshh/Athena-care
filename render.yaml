@@ -1,0 +1,41 @@
+services:
+  # Backend FastAPI Web Service (deployed via Docker)
+  - type: web
+    name: athenacare-backend
+    env: docker
+    root: backend
+    plan: starter # Can be starter or free, docker builds require starter/free plan
+    envVars:
+      - key: MONGODB_URL
+        sync: false # You will enter your MongoDB Atlas URL in the Render UI
+      - key: DATABASE_NAME
+        value: athenacare
+      - key: JWT_SECRET
+        generateValue: true # Render will automatically generate a secure JWT secret
+      - key: ENVIRONMENT
+        value: production
+      - key: DEBUG
+        value: "false"
+      - key: OPENAI_API_KEY
+        sync: false # Optional: Add your OpenAI API key
+      - key: HUGGINGFACE_API_KEY
+        sync: false # Optional: Add your HuggingFace API key
+      - key: ALLOWED_ORIGINS
+        value: '["https://athenacare-frontend.onrender.com", "http://localhost:3000"]' # Update with your frontend's actual URL once deployed
+
+  # Frontend Vite Static Site
+  - type: static
+    name: athenacare-frontend
+    root: frontend
+    buildCommand: npm install && npm run build
+    publishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          name: athenacare-backend
+          type: web
+          property: host
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
